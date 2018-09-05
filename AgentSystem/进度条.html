@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.progress {
+				width:120px;
+				height:4px;
+				background: #ededed;
+				overflow: visible;
+				border-radius: 20px;
+				border: 1px solid #dedede;
+				background-color: #fff;
+			}
+			
+			.progress .progress-bar {
+				width: 20%;
+				height: 100%;
+				border-radius: 20px;
+				background-color: #FF8D30;
+			}
+			
+			.progress-bar.active {
+				animation: animate-positive 2s;
+			}
+			
+			@-webkit-keyframes animate-positive {
+				0% {
+					width: 0;
+				}
+			}
+			
+			@keyframes animate-positive {
+				0% {
+					width: 0;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="progress">
+			<div class="progress-bar progress-bar-info active"></div>
+		</div>
+	</body>
+
+</html>
