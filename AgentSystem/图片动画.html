@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+		ol,li,ul{list-style: none;margin: 0;padding: 0;}
+			.exhibition {
+				height: 76px;
+				width: 146px;
+				position: relative;margin:500px auto;
+			}
+			
+			.exhibition> ol {
+				position: absolute;
+				left: 0;
+				bottom: -12px;
+				z-index: 999;
+			}
+			
+			.exhibition img {
+				width: 146px;
+				height: auto;
+			}
+			
+			.product_title {
+				width: 128px;
+				padding: 0 8px 0 10px;
+				background-color: #c2bdba;
+				height: 27px;
+				line-height: 27px;
+			}
+			
+			.product_title h4 {
+				color: #000000;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			
+			/*箭头图标默认效果*/
+			.product_title h4:after {
+				content: '';
+				display: block;
+				width: 12px;
+				height: 12px;
+				background: url(img/arrow.png) no-repeat center center / cover;
+				-webkit-transform: rotate(0deg);
+			}
+			
+			/*箭头图标hover后的效果*/
+			.product_title h4.show:after {
+				transform: rotate(180deg);
+				-ms-transform: rotate(180deg);
+				-moz-transform: rotate(180deg);
+				-webkit-transform: rotate(180deg);
+				-o-transform: rotate(180deg);
+			}
+			
+			/*关键代码隐藏部分显示 hover时js改变高度达到滑动效果*/
+			.exhibition_list {
+				overflow: hidden;
+				height: 0;
+				-webkit-transition: all 0.6s ease;
+				-moz-transition: all 0.6s ease;
+				-o-transition: all 0.6s ease;
+				-ms-transition: all 0.6s ease;
+			}
+			
+			/*底部图片滑动隐藏*/
+			.product_photo {
+				overflow: hidden;
+				height: 98px;
+				-webkit-transition: all 0.6s ease;
+				-moz-transition: all 0.6s ease;
+				-o-transition: all 0.6s ease;
+				-ms-transition: all 0.6s ease;
+			}
+			
+			.exhibition_list li {
+				height: 96px;
+			}
+			
+			.exhibition_list a {
+				position: relative;
+				display: block;
+			}
+			
+			#product .exhibition_list span {
+				position: absolute;
+				left: 10px;
+				top: 6px;
+				color: #939393;
+			}
+			
+			#product .exhibition_list span:hover {
+				color: #000000;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="exhibition">
+			<ol>
+				<li class="product_title">
+					<h4>明星产品</h4>
+				</li>
+				<li>
+					<!--exhibition_list 开始隐藏-->
+					<ul class="exhibition_list">
+						<li>
+							<a href="">
+								<img src="img/002.jpg" />
+								<span>生姜洗发水</span>
+							</a>
+						</li>
+						<li>
+							<a href="">
+								<img src="img/002.jpg" />
+								<span>精灵水</span>
+							</a>
+						</li>
+						<li>
+							<a href="">
+								<img src="img/002.jpg" />
+								<span>营养素</span>
+							</a>
+						</li>
+					</ul>
+					<!--exhibition_list 开始隐藏-->
+				</li>
+				<li class="product_photo">
+					<a href="">
+						<img src="img/002.jpg" />
+					</a>
+				</li>
+			</ol>
+		</div>
+	</body>
+<script src="js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	$(function(){
+		$(".exhibition ol").hover(function(){
+			 		$(".product_title h4").addClass("show");
+			 		$(".exhibition_list").css('height','288px');
+			 		$(".product_photo").css('height','0');
+			 },function(){
+			 	$(".product_title h4").removeClass("show");
+			 	$(".exhibition_list").css('height','0px');
+			 	$(".product_photo").css('height','98px');
+			 });
+
+	})
+</script>
+</html>
