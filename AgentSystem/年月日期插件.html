@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+		<meta content="telephone=no" name="format-detection">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>日期和g2图表</title>
+		<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_736317_on8ezs7jd5.css"/>
+		<script src="js/g2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/data-set.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/myCalendar.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			li {
+				list-style: none;
+			}
+			button {
+				border: none;
+				background-color: rgba(0, 0, 0, 0);
+				padding: 0;
+				outline: none;
+			}
+			
+			#myCalendar {
+				position: fixed;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				background: rgba(70, 69, 69, 0.71);
+				height: 100%;
+				width: 100%;
+			}
+			
+			#myCalendar>.plan {
+				width: 14.5rem;
+				height: auto;
+				margin: 4.8rem auto;
+				background-color: #FFFFFF;
+			}
+			
+			#myCalendar .year_div {
+				padding: 0 .85rem;
+				height: 3.125rem;
+				border-bottom: 1px solid #EBEBEB;
+				display: flex;
+				align-items: center;
+			}
+			
+			#myCalendar .year_div>button {
+				font-size: 28px;
+			}
+			#myCalendar #year,
+			#myCalendar .year_div p {
+				font-size: .85rem;
+			}
+			
+			#myCalendar .year_div p {
+				width: 100%;
+				text-align: center;
+			}
+			
+			#myCalendar .month {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				/*padding: 0 1rem;*/
+			}
+			
+			#myCalendar .month li {
+				width: 30px;
+				height: 30px;
+				text-align: center;
+				line-height: 30px;
+				border-radius: 50%;
+				margin: 20px 16px 0;
+			}
+			
+			#myCalendar .btn {
+				padding: 1rem 2rem 1.5rem;
+				display: flex;
+				justify-content: space-between;
+			}
+			
+			#myCalendar .btn button {
+				color: #FFFFFF;
+				font-size: .75rem;
+				background-color: #A8A2FC;
+				width: 3rem;
+				height: 1.4rem;
+				border-radius: 5px;
+				line-height: 1.4rem;
+			}
+			
+			#myCalendar .month li.selected {
+				background-color: #A8A2FC;
+				color: #FFFFFF;
+			}
+		</style>
+		<script type="text/javascript">
+			var docEl = document.documentElement;
+
+			function getSize() { // 获取屏幕的宽度
+				var screenWidth = docEl.clientWidth;
+				docEl.style.fontSize = screenWidth / (750 / 40) + 'px';
+			}
+			getSize(); // 页面加载完执行一次
+			window.onresize = function() {
+				getSize();
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="agencyIncomeLayout">
+			<a href="javascript:void(0);" id="dateTime">2018-01</a>
+			<div class="chart">
+				<p>图表：</p>
+				<div id="div_chart"></div>
+			</div>
+			
+		</div>
+	</body>
+	<script type="text/javascript">
+		//日期
+		document.getElementById('dateTime').onclick = function() {
+			new myCalendar('dateTime',function(yearResult,monthResult){
+				//TODO
+			});
+		}
+	</script>
+	<script>
+		const {
+			DataView
+		} = DataSet;
+		const data1 = [{
+			item: 'data1',
+			count: 60
+		}, {
+			item: 'data2',
+			count: 40
+		}];
+		const dv = new DataView();
+		dv.source(data1).transform({
+			type: 'percent',
+			field: 'count', //data 中的key
+			dimension: 'item', //data 中的key
+			as: 'percent'
+		});
+		const chart = new G2.Chart({
+			container: 'div_chart',
+			forceFit: true,
+			height: 230,
+			padding: [15, 50, 65, 15],
+		});
+		chart.source(dv, {
+			percent: {
+				formatter: val => {
+					val = (val * 100) + '%';
+					return val;
+				}
+			}
+		});
+		chart.coord('theta', {
+			radius: 1 // 实心圆的半径大小设置
+		});
+		chart.tooltip({
+			showTitle: false,
+			itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
+		});
+		chart.intervalStack()
+			.position('percent')
+			.color('item', ['#69bbf5', '#a8a2fc', '#ededed', 'pink']) //设置颜色
+			.label('percent', { //图饼提示
+				formatter: (val, item) => {
+					//      return item.point.item + ': ' + val;
+					return val;
+				}
+			})
+			.tooltip('item*percent', (item, percent) => {
+				percent = percent * 100 + '%';
+				return {
+					name: item,
+					value: percent
+				};
+			})
+			.style({
+				lineWidth: 1,
+				stroke: '#fff'
+			});
+		chart.legend({ //底部标注
+			offsetX: 0,
+			offsetY: -25,
+			position: 'bottom',
+			marker: 'square' // 设置图例 marker 的显示样式
+		});
+		chart.render();
+	</script>
+
+</html>
